@@ -1,10 +1,18 @@
-# My Personal Project
+# Project - Bank Account
 
-## A subtitle
 
-A *bulleted* list:
-- item 1
-- item 2
-- item 3
+The bank account application will allow users to create accounts to
+withdraw money, deposit money, and make bill payments.
+Users can use the application to practise simple banking and managing money.
+This project is of interest to me because
+personal banking is a major aspect of university life as students
+often need to keep track of many bill payments.
 
-An example of text with **bold** and *italic* fonts.  
+## User Stories
+- As a user, I want to be able to **deposit/withdraw money** to/from my accounts.
+- As a user, I want to be able to **pay bills** and **receive payments** using my accounts.
+- As a user, I want to be able to **view the list of transactions** in my accounts.
+- As a user, I want to be able to **filter the list of transactions** by their details (_date, amount, etc._).
+- As a user, I want to be able to **create/delete** multiple accounts.
+- As a user, I want to be able to **see the details**
+of my accounts (_date opened, expiry date, money available, etc._).
