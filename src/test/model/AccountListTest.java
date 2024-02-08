@@ -1,5 +1,5 @@
 package model;
 
-class MyModelTest {
+class AccountListTest {
     // delete or rename this class!
 }
