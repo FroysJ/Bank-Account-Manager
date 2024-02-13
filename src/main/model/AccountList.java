@@ -18,4 +18,25 @@ public class AccountList {
         accountList.remove(account);
     }
 
+    public boolean isEmpty() {
+        return accountList.isEmpty();
+    }
+
+    public boolean contains(String name) {
+        for (Account a : accountList) {
+            if (a.getName().equals(name)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Account getAccount(String name) {
+        for (Account a : accountList) {
+            if (a.getName().equals(name)) {
+                return a;
+            }
+        }
+        return null;
+    }
 }

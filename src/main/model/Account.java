@@ -7,7 +7,6 @@ public class Account {
 
     private String name;
     private double bal;
-    private TransactionList transactionList;
     private final String dateOpened;
     private String dateOfExpiry;
     private DateTimeFormatter format = DateTimeFormatter.ofPattern("E, MMM dd yyyy");
@@ -19,7 +18,6 @@ public class Account {
         this.dateOpened = LocalDate.now().format(format);
         this.dateOfExpiry = LocalDate.now().plusYears(5).format(format);
         this.bal = 0;
-        this.transactionList = new TransactionList();
     }
 
     public void renewAccount() {
@@ -40,6 +38,14 @@ public class Account {
 
     public double getBal() {
         return bal;
+    }
+
+    public String getDateOpened() {
+        return dateOpened;
+    }
+
+    public String getDateOfExpiry() {
+        return dateOfExpiry;
     }
 
 }

@@ -11,8 +11,6 @@ often need to keep track of many bill payments.
 ## User Stories
 - As a user, I want to be able to **deposit/withdraw money** to/from my accounts.
 - As a user, I want to be able to **pay bills** and **receive payments** using my accounts.
-- As a user, I want to be able to **view the list of transactions** in my accounts.
-- As a user, I want to be able to **filter the list of transactions** by their details (_date, amount, etc._).
 - As a user, I want to be able to **create/delete** multiple accounts.
 - As a user, I want to be able to **see the details**
-of my accounts (_date opened, expiry date, money available, etc._).
+of my accounts (_date opened, expiry date, balance, etc._).
