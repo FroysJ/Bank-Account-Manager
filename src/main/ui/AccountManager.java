@@ -3,7 +3,6 @@ package ui;
 import model.Account;
 import model.AccountList;
 
-import java.time.LocalDate;
 import java.util.Scanner;
 
 // Account manager application: allows users to create, delete, and modify accounts (in the context of banking)

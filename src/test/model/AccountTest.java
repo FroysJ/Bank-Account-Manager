@@ -37,13 +37,17 @@ class AccountTest {
     void testRenewOpenedExpired() {
         DateTimeFormatter format = DateTimeFormatter.ofPattern("E, MMM dd yyyy");
         assertEquals(LocalDate.now(), a5.getDateOpened());
+        assertEquals(LocalDate.now().format(format), a5.getDateOpenedString());
         assertEquals(LocalDate.now().plusYears(5), a5.getDateOfExpiry());
+        assertEquals(LocalDate.now().plusYears(5).format(format), a5.getDateOfExpiryString());
         assertFalse(a5.isExpired());
         a5.setExpiryDate(LocalDate.parse("Tue, Oct 11 2005", format));
         assertEquals(LocalDate.parse("Tue, Oct 11 2005", format), a5.getDateOfExpiry());
+        assertEquals("Tue, Oct 11 2005", a5.getDateOfExpiryString());
         assertTrue(a5.isExpired());
         a5.renewAccount();
         assertEquals(LocalDate.now().plusYears(5), a5.getDateOfExpiry());
+        assertEquals(LocalDate.now().plusYears(5).format(format), a5.getDateOfExpiryString());
         assertFalse(a5.isExpired());
     }
 
