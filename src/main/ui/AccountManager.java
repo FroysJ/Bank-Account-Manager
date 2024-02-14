@@ -3,6 +3,7 @@ package ui;
 import model.Account;
 import model.AccountList;
 
+import java.time.LocalDate;
 import java.util.Scanner;
 
 // Account manager application: allows users to create, delete, and modify accounts (in the context of banking)
@@ -124,16 +125,17 @@ public class AccountManager {
 
     //EFFECTS: prints account details according to user specification
     private void printAccountDetails(boolean onlyPrintNames) {
+        int numAccounts = accountList.getAccountList().size();
         if (accountList.isEmpty()) {
             System.out.println("You do not have any existing accounts.");
         } else {
             if (onlyPrintNames) {
-                System.out.println("My Accounts:\n");
+                System.out.println("You have " + numAccounts + " accounts:\n");
                 for (Account a : accountList.getAccountList()) {
                     System.out.println(a.getName());
                 }
             } else {
-                System.out.println("My Accounts:");
+                System.out.println("You have " + numAccounts + " accounts:");
                 for (Account a : accountList.getAccountList()) {
                     System.out.print("\n");
                     viewDetails(a);
@@ -164,6 +166,7 @@ public class AccountManager {
     //EFFECTS: displays the account screen options
     private void accountOptionsScreen(Account account) {
         String name = account.getName();
+        account.setExpiryDate(account.getDateOfExpiry());
         if (!account.isExpired()) {
             System.out.println("\nType 'd' to make a deposit to " + name + ":");
             System.out.println("Type 'w' to make a withdrawal from " + name + ":");
@@ -295,15 +298,15 @@ public class AccountManager {
     private void renewAccount(Account account) {
         account.renewAccount();
         System.out.println("You have successfully renewed your account.");
-        System.out.println("Your account will expire 5 years from now on " + account.getDateOfExpiry() + ".");
+        System.out.println("Your account will expire 5 years from now on " + account.getDateOfExpiryString() + ".");
     }
 
     //EFFECTS: displays account details
     private void viewDetails(Account account) {
         System.out.println("Account name: " + account.getName());
         System.out.println("Account balance: " + account.getBal());
-        System.out.println("Date opened: " + account.getDateOpened());
-        System.out.println("Date of expiry: " + account.getDateOfExpiry());
+        System.out.println("Date opened: " + account.getDateOpenedString());
+        System.out.println("Expiry Date: " + account.getDateOfExpiryString());
         String status;
         if (account.isExpired()) {
             status = "Expired";

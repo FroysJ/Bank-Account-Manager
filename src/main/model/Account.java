@@ -8,8 +8,8 @@ public class Account {
 
     private String name;
     private double bal;
-    private final String dateOpened;
-    private String dateOfExpiry;
+    private final LocalDate dateOpened;
+    private LocalDate dateOfExpiry;
     private boolean expired;
     private DateTimeFormatter format = DateTimeFormatter.ofPattern("E, MMM dd yyyy");
 
@@ -19,8 +19,8 @@ public class Account {
     //         expiry date as 5 years from now, expired status as false, and 0 balance
     public Account(String name) {
         this.name = name;
-        this.dateOpened = LocalDate.now().format(format);
-        this.dateOfExpiry = LocalDate.now().plusYears(5).format(format);
+        this.dateOpened = LocalDate.now();
+        this.dateOfExpiry = LocalDate.now().plusYears(5);
         this.expired = false;
         this.bal = 0;
     }
@@ -48,7 +48,7 @@ public class Account {
     //MODIFIES: dateOfExpiry, expired
     //EFFECTS: changes expiry date to given date, changes expired status to reflect new expiry date
     public void setExpiryDate(LocalDate expDate) {
-        dateOfExpiry = expDate.format(format);
+        dateOfExpiry = expDate;
         if (expDate.isBefore(LocalDate.now())) {
             expired = true;
         } else {
@@ -66,14 +66,24 @@ public class Account {
         return bal;
     }
 
-    //EFFECTS: returns dateOpened;
-    public String getDateOpened() {
+    //EFFECTS: returns dateOpened
+    public LocalDate getDateOpened() {
         return dateOpened;
     }
 
     //EFFECTS: returns dateOfExpiry
-    public String getDateOfExpiry() {
+    public LocalDate getDateOfExpiry() {
         return dateOfExpiry;
+    }
+
+    //EFFECTS: returns dateOpened as a string;
+    public String getDateOpenedString() {
+        return dateOpened.format(format);
+    }
+
+    //EFFECTS: returns dateOfExpiry as a string
+    public String getDateOfExpiryString() {
+        return dateOfExpiry.format(format);
     }
 
     //EFFECTS: returns expired status;
