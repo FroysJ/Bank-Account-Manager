@@ -9,6 +9,7 @@ public class Account {
     private double bal;
     private final String dateOpened;
     private String dateOfExpiry;
+    private boolean expired;
     private DateTimeFormatter format = DateTimeFormatter.ofPattern("E, MMM dd yyyy");
 
     //https://www.w3schools.com/java/java_date.asp
@@ -17,6 +18,7 @@ public class Account {
         this.name = name;
         this.dateOpened = LocalDate.now().format(format);
         this.dateOfExpiry = LocalDate.now().plusYears(5).format(format);
+        this.expired = false;
         this.bal = 0;
     }
 
@@ -30,6 +32,20 @@ public class Account {
 
     public void withdraw(double amount) {
         bal -= amount;
+    }
+
+    public void viewAccountDetails() {
+        System.out.println("Account name: " + name);
+        System.out.println("Account balance: " + bal);
+        System.out.println("Date opened: " + dateOpened);
+        System.out.println("Date of expiry: " + dateOfExpiry);
+        String status;
+        if (isExpired()) {
+            status = "Expired";
+        } else {
+            status = "Active";
+        }
+        System.out.println("Status: " + status);
     }
 
     public String getName() {
@@ -46,6 +62,10 @@ public class Account {
 
     public String getDateOfExpiry() {
         return dateOfExpiry;
+    }
+
+    public boolean isExpired() {
+        return expired;
     }
 
 }

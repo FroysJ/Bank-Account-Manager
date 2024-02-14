@@ -38,7 +38,10 @@ public class AccountManager {
     private void homeScreen() {
         System.out.println("\nType 'c' to create a new account:");
         if (!accountList.isEmpty()) {
+            System.out.println("Type 'b' to view your total balance across all accounts:");
             System.out.println("Type 's' to select an existing account:");
+            System.out.println("Type 'n' to view the list of your accounts' names:");
+            System.out.println("Type 'v' to view all your accounts' details:");
         }
         System.out.println("Type 'e' to exit:");
     }
@@ -46,8 +49,14 @@ public class AccountManager {
     private void doHomeScreenAction(String userAction) {
         if (userAction.equals("c")) {
             createAccount();
+        } else if (userAction.equals("b")) {
+            viewTotalBal();
         } else if (userAction.equals("s")) {
             selectAccount();
+        } else if (userAction.equals("n")) {
+            printAccountDetails(true);
+        } else if (userAction.equals("v")) {
+            printAccountDetails(false);
         } else {
             System.out.println("Invalid action.");
         }
@@ -67,6 +76,15 @@ public class AccountManager {
             } else {
                 System.out.println("Invalid name entered. Please enter a unique name with 3 to 12 characters:");
             }
+        }
+    }
+
+    private void viewTotalBal() {
+        if (!accountList.isEmpty()) {
+            System.out.print("Your total balance across all accounts is: $");
+            accountList.printTotalBal();
+        } else {
+            System.out.println("You do not have any existing accounts.");
         }
     }
 
@@ -90,49 +108,72 @@ public class AccountManager {
         }
     }
 
+    private void printAccountDetails(boolean onlyPrintNames) {
+        if (accountList.isEmpty()) {
+            System.out.println("You do not have any existing accounts.");
+        } else {
+            if (onlyPrintNames) {
+                accountList.printAccountNameList();
+            } else {
+                accountList.printAccountDetailsList();
+            }
+        }
+    }
+
     private void accountOptions(Account account) {
         boolean continueProcess = true;
         String userAction = null;
         while (continueProcess) {
-            accountOptionsScreen(account.getName());
+            accountOptionsScreen(account);
             userAction = userInput.next();
             userAction = userAction.toLowerCase();
             if (userAction.equals("e")) {
                 continueProcess = false;
             } else {
                 doAccountAction(account, userAction);
+                if (!accountList.contains(account.getName())) {
+                    continueProcess = false;
+                }
             }
         }
     }
 
-    private void accountOptionsScreen(String name) {
-        System.out.println("\nType 'd' to make a deposit to " + name + ":");
-        System.out.println("Type 'w' to make a withdrawal from " + name + ":");
-        System.out.println("Type 't' to make a transaction with " + name + ":");
-        System.out.println("Type 'r' to renew your account:");
-        System.out.println("Type 'x' to delete your account:");
+    private void accountOptionsScreen(Account account) {
+        String name = account.getName();
+        if (!account.isExpired()) {
+            System.out.println("\nType 'd' to make a deposit to " + name + ":");
+            System.out.println("Type 'w' to make a withdrawal from " + name + ":");
+            System.out.println("Type 't' to make a transaction with " + name + ":");
+        }
+        System.out.println("Type 'r' to renew " + name + ":");
+        System.out.println("Type 'v' to view your account details:");
+        System.out.println("Type 'x' to delete " + name + ":");
         System.out.println("Type 'e' to exit to Home Screen:");
     }
 
     private void doAccountAction(Account account, String userAction) {
-        if (userAction.equals("d")) {
-            System.out.println("You have chosen to make a deposit to " + account.getName() + ".");
-            System.out.println("Please enter an amount to deposit. Amount must be between $5.00 and $500,000.00:");
-            makeDeposit(account, false);
-        } else if (userAction.equals("w")) {
-            System.out.println("You have chosen to make a withdrawal from " + account.getName() + ".");
-            System.out.println("Please enter an amount to withdraw. Amount must be between $5.00 and $500,000.00:");
-            makeWithdrawal(account, false);
-        } else if (userAction.equals("t")) {
-            System.out.println("You have chosen to make a transaction with " + account.getName() + ".");
-            System.out.println("Please indicate whether this account will be receiving (r) or giving (g) funds:");
-            makeTransaction(account);
-        } else if (userAction.equals("r")) {
+        if (userAction.equals("r")) {
             renewAccount(account);
+        } else if (userAction.equals("v")) {
+            viewDetails(account);
         } else if (userAction.equals("x")) {
             deleteAccount(account);
+        } else if (!account.isExpired()) {
+            if (userAction.equals("d")) {
+                System.out.println("You have chosen to make a deposit to " + account.getName() + ".");
+                System.out.println("Please enter an amount to deposit. Amount must be between $5.00 and $500,000.00:");
+                makeDeposit(account, false);
+            } else if (userAction.equals("w")) {
+                System.out.println("You have chosen to make a withdrawal from " + account.getName() + ".");
+                System.out.println("Please enter an amount to withdraw. Amount must be between $5.00 and $500,000.00:");
+                makeWithdrawal(account, false);
+            } else if (userAction.equals("t")) {
+                System.out.println("You have chosen to make a transaction with " + account.getName() + ".");
+                System.out.println("Please indicate whether this account will be receiving (r) or giving (g) funds:");
+                makeTransaction(account);
+            }
         } else {
-            System.out.println("Invalid action.");
+            System.out.println("Invalid action. If your account has expired, please renew it to unlock more actions.");
         }
     }
 
@@ -220,7 +261,11 @@ public class AccountManager {
     private void renewAccount(Account account) {
         account.renewAccount();
         System.out.println("You have successfully renewed your account.");
-        System.out.println("Your account will expire 5 years from now.");
+        System.out.println("Your account will expire 5 years from now on " + account.getDateOfExpiry() + ".");
+    }
+
+    private void viewDetails(Account account) {
+        account.viewAccountDetails();
     }
 
     private void deleteAccount(Account account) {
