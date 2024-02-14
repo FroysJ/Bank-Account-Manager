@@ -23,7 +23,7 @@ public class Account {
     }
 
     public void renewAccount() {
-        dateOfExpiry = LocalDate.now().plusYears(5).format(format);
+        setExpiryDate(LocalDate.now().plusYears(5));
     }
 
     public void deposit(double amount) {
@@ -34,18 +34,13 @@ public class Account {
         bal -= amount;
     }
 
-    public void viewAccountDetails() {
-        System.out.println("Account name: " + name);
-        System.out.println("Account balance: " + bal);
-        System.out.println("Date opened: " + dateOpened);
-        System.out.println("Date of expiry: " + dateOfExpiry);
-        String status;
-        if (isExpired()) {
-            status = "Expired";
+    public void setExpiryDate(LocalDate expDate) {
+        dateOfExpiry = expDate.format(format);
+        if (expDate.isBefore(LocalDate.now())) {
+            expired = true;
         } else {
-            status = "Active";
+            expired = false;
         }
-        System.out.println("Status: " + status);
     }
 
     public String getName() {

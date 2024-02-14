@@ -82,7 +82,11 @@ public class AccountManager {
     private void viewTotalBal() {
         if (!accountList.isEmpty()) {
             System.out.print("Your total balance across all accounts is: $");
-            accountList.printTotalBal();
+            double totalBal = 0;
+            for (Account a : accountList.getAccountList()) {
+                totalBal += a.getBal();
+            }
+            System.out.println(totalBal);
         } else {
             System.out.println("You do not have any existing accounts.");
         }
@@ -113,9 +117,16 @@ public class AccountManager {
             System.out.println("You do not have any existing accounts.");
         } else {
             if (onlyPrintNames) {
-                accountList.printAccountNameList();
+                System.out.println("My Accounts:\n");
+                for (Account a : accountList.getAccountList()) {
+                    System.out.println(a.getName());
+                }
             } else {
-                accountList.printAccountDetailsList();
+                System.out.println("My Accounts:");
+                for (Account a : accountList.getAccountList()) {
+                    System.out.print("\n");
+                    viewDetails(a);
+                }
             }
         }
     }
@@ -265,7 +276,17 @@ public class AccountManager {
     }
 
     private void viewDetails(Account account) {
-        account.viewAccountDetails();
+        System.out.println("Account name: " + account.getName());
+        System.out.println("Account balance: " + account.getBal());
+        System.out.println("Date opened: " + account.getDateOpened());
+        System.out.println("Date of expiry: " + account.getDateOfExpiry());
+        String status;
+        if (account.isExpired()) {
+            status = "Expired";
+        } else {
+            status = "Active";
+        }
+        System.out.println("Status: " + status);
     }
 
     private void deleteAccount(Account account) {

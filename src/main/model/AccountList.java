@@ -18,29 +18,6 @@ public class AccountList {
         accountList.remove(account);
     }
 
-    public void printAccountNameList() {
-        System.out.println("My Accounts:\n");
-        for (Account a : accountList) {
-            System.out.println(a.getName());
-        }
-    }
-
-    public void printAccountDetailsList() {
-        System.out.println("My Accounts:");
-        for (Account a : accountList) {
-            System.out.print("\n");
-            a.viewAccountDetails();
-        }
-    }
-
-    public void printTotalBal() {
-        double totalBal = 0;
-        for (Account a : accountList) {
-            totalBal += a.getBal();
-        }
-        System.out.println(totalBal);
-    }
-
     public boolean isEmpty() {
         return accountList.isEmpty();
     }
