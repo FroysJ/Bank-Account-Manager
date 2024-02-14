@@ -62,4 +62,8 @@ public class AccountList {
         }
         return null;
     }
+
+    public ArrayList<Account> getAccountList() {
+        return accountList;
+    }
 }
