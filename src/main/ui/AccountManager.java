@@ -5,6 +5,7 @@ import model.AccountList;
 
 import java.util.Scanner;
 
+// Account manager application: allows users to create, delete, and modify accounts (in the context of banking)
 public class AccountManager {
 
     private AccountList accountList = new AccountList();

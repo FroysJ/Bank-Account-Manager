@@ -3,6 +3,7 @@ package model;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+// A bank account with a name, balance, date opened, expiry date, and status
 public class Account {
 
     private String name;

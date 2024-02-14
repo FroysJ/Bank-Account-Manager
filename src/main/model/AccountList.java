@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 
+// A list of bank accounts
 public class AccountList {
 
     private ArrayList<Account> accountList;
