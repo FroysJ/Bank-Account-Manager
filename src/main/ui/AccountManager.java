@@ -10,10 +10,13 @@ public class AccountManager {
     private AccountList accountList = new AccountList();
     private Scanner userInput;
 
+    //EFFECTS: starts the account manager application
     public AccountManager() {
         startApp();
     }
 
+    //MODIFIES: this
+    //EFFECTS: takes user information and runs app accordingly
     private void startApp() {
         boolean continueProcess = true;
         String userAction = null;
@@ -35,6 +38,7 @@ public class AccountManager {
         System.out.println("Thank you for using The Trustworthy Bank. Have a nice day!");
     }
 
+    //EFFECTS: displays the home screen options
     private void homeScreen() {
         System.out.println("\nType 'c' to create a new account:");
         if (!accountList.isEmpty()) {
@@ -46,6 +50,7 @@ public class AccountManager {
         System.out.println("Type 'e' to exit:");
     }
 
+    //EFFECTS: processes the user's instructions
     private void doHomeScreenAction(String userAction) {
         if (userAction.equals("c")) {
             createAccount();
@@ -62,6 +67,8 @@ public class AccountManager {
         }
     }
 
+    //MODIFIES: this
+    //EFFECTS: creates a new account
     private void createAccount() {
         boolean invalidInput = true;
         System.out.println("You have chosen to create an account.");
@@ -79,6 +86,7 @@ public class AccountManager {
         }
     }
 
+    //EFFECTS: displays the total balance across all user accounts
     private void viewTotalBal() {
         if (!accountList.isEmpty()) {
             System.out.print("Your total balance across all accounts is: $");
@@ -92,6 +100,7 @@ public class AccountManager {
         }
     }
 
+    //EFFECTS: selects the desired account
     private void selectAccount() {
         boolean invalidInput = true;
         if (!accountList.isEmpty()) {
@@ -112,6 +121,7 @@ public class AccountManager {
         }
     }
 
+    //EFFECTS: prints account details according to user specification
     private void printAccountDetails(boolean onlyPrintNames) {
         if (accountList.isEmpty()) {
             System.out.println("You do not have any existing accounts.");
@@ -131,6 +141,7 @@ public class AccountManager {
         }
     }
 
+    //EFFECTS: takes user information and runs app accordingly
     private void accountOptions(Account account) {
         boolean continueProcess = true;
         String userAction = null;
@@ -149,6 +160,7 @@ public class AccountManager {
         }
     }
 
+    //EFFECTS: displays the account screen options
     private void accountOptionsScreen(Account account) {
         String name = account.getName();
         if (!account.isExpired()) {
@@ -162,6 +174,7 @@ public class AccountManager {
         System.out.println("Type 'e' to exit to Home Screen:");
     }
 
+    //EFFECTS: processes the user's instructions
     private void doAccountAction(Account account, String userAction) {
         if (userAction.equals("r")) {
             renewAccount(account);
@@ -188,6 +201,8 @@ public class AccountManager {
         }
     }
 
+    //MODIFIES: this
+    //EFFECTS: makes a deposit
     private void makeDeposit(Account account, boolean transaction) {
         boolean invalidInput = true;
         while (invalidInput) {
@@ -208,6 +223,8 @@ public class AccountManager {
         }
     }
 
+    //MODIFIES: this
+    //EFFECTS: makes a withdrawal
     private void makeWithdrawal(Account account, boolean transaction) {
         if (account.getBal() < 5) {
             System.out.println("Accounts must have $5.00 or more to participate in withdrawals.");
@@ -234,6 +251,8 @@ public class AccountManager {
         }
     }
 
+    //MODIFIES: this
+    //EFFECTS: makes a transaction
     private void makeTransaction(Account account) {
         boolean invalidInput = true;
         while (invalidInput) {
@@ -256,6 +275,7 @@ public class AccountManager {
         }
     }
 
+    //EFFECTS: prints details after a transaction is made
     private void transactionDetails(String type, double amount) {
         String otherParty;
         if (type.equals("r")) {
@@ -269,12 +289,15 @@ public class AccountManager {
         }
     }
 
+    //MODIFIES: this
+    //EFFECTS: renews the account
     private void renewAccount(Account account) {
         account.renewAccount();
         System.out.println("You have successfully renewed your account.");
         System.out.println("Your account will expire 5 years from now on " + account.getDateOfExpiry() + ".");
     }
 
+    //EFFECTS: displays account details
     private void viewDetails(Account account) {
         System.out.println("Account name: " + account.getName());
         System.out.println("Account balance: " + account.getBal());
@@ -289,6 +312,8 @@ public class AccountManager {
         System.out.println("Status: " + status);
     }
 
+    //MODIFIES: this
+    //EFFECTS: deletes the account
     private void deleteAccount(Account account) {
         System.out.println("Are you sure you want to delete your account?");
         System.out.println("Type 'yes' to confirm, enter anything else to cancel:");

@@ -51,6 +51,7 @@ class AccountListTest {
     void testContainsGetAccount() {
         assertTrue(al.isEmpty());
         assertFalse(al.contains("acc1"));
+        assertNull(al.getAccount("acc5"));
         al.addAccount(a1);
         assertTrue(al.contains("acc1"));
         al.addAccount(a2);
@@ -63,6 +64,7 @@ class AccountListTest {
         al.removeAccount(a2);
         assertEquals(a1, al.getAccount("acc1"));
         assertFalse(al.contains("acc4"));
+        assertNull(al.getAccount("acc2"));
         assertTrue(al.contains("acc3"));
         al.removeAccount(a3);
         al.removeAccount(a1);
