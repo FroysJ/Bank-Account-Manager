@@ -1,17 +1,22 @@
 package model;
 
+import org.json.JSONObject;
+import persistence.Writable;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+// persistence code from https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo.git
+
 // A bank account with a name, balance, date opened, expiry date, and status
-public class Account {
+public class Account implements Writable {
 
     private String name;
     private double bal;
-    private final LocalDate dateOpened;
+    private LocalDate dateOpened;
     private LocalDate dateOfExpiry;
     private boolean expired;
-    private DateTimeFormatter format = DateTimeFormatter.ofPattern("E, MMM dd yyyy");
+    private final DateTimeFormatter format = DateTimeFormatter.ofPattern("E, MMM dd yyyy");
 
     //https://www.w3schools.com/java/java_date.asp
 
@@ -56,6 +61,12 @@ public class Account {
         }
     }
 
+    //MODIFIES: dateOpened
+    //EFFECTS: changes date opened to given date
+    public void setDateOpened(LocalDate openDate) {
+        dateOpened = openDate;
+    }
+
     //EFFECTS: returns name
     public String getName() {
         return name;
@@ -89,6 +100,17 @@ public class Account {
     //EFFECTS: returns expired status;
     public boolean isExpired() {
         return expired;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("name", name);
+        json.put("balance", bal);
+        json.put("date opened", getDateOpenedString());
+        json.put("expiry date", getDateOfExpiryString());
+        json.put("expired status", expired);
+        return json;
     }
 
 }

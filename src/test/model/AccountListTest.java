@@ -15,7 +15,7 @@ class AccountListTest {
 
     @BeforeEach
     void runBefore() {
-        al = new AccountList();
+        al = new AccountList("accList1");
         a1 = new Account("acc1");
         a2 = new Account("acc2");
         a3 = new Account("acc3");
@@ -49,6 +49,7 @@ class AccountListTest {
 
     @Test
     void testContainsGetAccount() {
+        assertEquals("accList1", al.getName());
         assertTrue(al.isEmpty());
         assertFalse(al.contains("acc1"));
         assertNull(al.getAccount("acc5"));

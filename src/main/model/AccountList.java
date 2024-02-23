@@ -1,14 +1,22 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+import persistence.Writable;
+
 import java.util.ArrayList;
 
-// A list of bank accounts
-public class AccountList {
+// persistence code from https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo.git
 
+// A list of bank accounts
+public class AccountList implements Writable {
+
+    private String name;
     private ArrayList<Account> accountList;
 
-    //EFFECTS: constructs an empty account list
-    public AccountList() {
+    //EFFECTS: constructs an empty account list with a name
+    public AccountList(String name) {
+        this.name = name;
         this.accountList = new ArrayList<Account>();
     }
 
@@ -54,5 +62,29 @@ public class AccountList {
     //EFFECTS: returns this.accountList
     public ArrayList<Account> getAccountList() {
         return accountList;
+    }
+
+    //EFFECTS: returns name
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("name", name);
+        json.put("accounts", accountsToJson());
+        return json;
+    }
+
+    // EFFECTS: returns things in this workroom as a JSON array
+    private JSONArray accountsToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (Account a : accountList) {
+            jsonArray.put(a.toJson());
+        }
+
+        return jsonArray;
     }
 }

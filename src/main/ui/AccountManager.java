@@ -2,17 +2,31 @@ package ui;
 
 import model.Account;
 import model.AccountList;
+import persistence.JsonReader;
+import persistence.JsonWriter;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
+
+// ui framework (not project ideas) taken from https://github.students.cs.ubc.ca/CPSC210/AccountNotRobust
+// persistence code and comments taken from https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo.git
 
 // Account manager application: allows users to create, delete, and modify accounts (in the context of banking)
 public class AccountManager {
 
-    private AccountList accountList = new AccountList();
+    private static final String JSON_STORE = "./data/testReaderGeneralAccountList.json";
+    private AccountList accountList;
     private Scanner userInput;
+    private JsonWriter jsonWriter;
+    private JsonReader jsonReader;
 
-    //EFFECTS: starts the account manager application
+    //EFFECTS: constructs and starts the account manager application
     public AccountManager() {
+        userInput = new Scanner(System.in);
+        accountList = new AccountList("My Accounts");
+        jsonWriter = new JsonWriter(JSON_STORE);
+        jsonReader = new JsonReader(JSON_STORE);
         startApp();
     }
 
@@ -42,6 +56,8 @@ public class AccountManager {
     //EFFECTS: displays the home screen options
     private void homeScreen() {
         System.out.println("\nType 'c' to create a new account:");
+        System.out.println("Type 'save' to save your current session:");
+        System.out.println("Type 'load' to load your previous session:");
         if (!accountList.isEmpty()) {
             System.out.println("Type 'b' to view your total balance across all accounts:");
             System.out.println("Type 's' to select an existing account:");
@@ -55,6 +71,10 @@ public class AccountManager {
     private void doHomeScreenAction(String userAction) {
         if (userAction.equals("c")) {
             createAccount();
+        } else if (userAction.equals("save")) {
+            saveAccountManager();
+        } else if (userAction.equals("load")) {
+            loadAccountManager();
         } else if (userAction.equals("b")) {
             viewTotalBal();
         } else if (userAction.equals("s")) {
@@ -84,6 +104,29 @@ public class AccountManager {
             } else {
                 System.out.println("Invalid name entered. Please enter a unique name with 3 to 12 characters:");
             }
+        }
+    }
+
+    // EFFECTS: saves the session to file
+    private void saveAccountManager() {
+        try {
+            jsonWriter.open();
+            jsonWriter.write(accountList);
+            jsonWriter.close();
+            System.out.println("Saved " + accountList.getName() + " to " + JSON_STORE);
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to write to file: " + JSON_STORE);
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: loads session from file
+    private void loadAccountManager() {
+        try {
+            accountList = jsonReader.read();
+            System.out.println("Loaded " + accountList.getName() + " from " + JSON_STORE);
+        } catch (IOException e) {
+            System.out.println("Unable to read from file: " + JSON_STORE);
         }
     }
 

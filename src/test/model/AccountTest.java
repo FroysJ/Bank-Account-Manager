@@ -49,6 +49,9 @@ class AccountTest {
         assertEquals(LocalDate.now().plusYears(5), a5.getDateOfExpiry());
         assertEquals(LocalDate.now().plusYears(5).format(format), a5.getDateOfExpiryString());
         assertFalse(a5.isExpired());
+        a5.setDateOpened(LocalDate.parse("Wed, Oct 12 2005", format));
+        assertEquals(LocalDate.parse("Wed, Oct 12 2005", format), a5.getDateOpened());
+        assertEquals("Wed, Oct 12 2005", a5.getDateOpenedString());
     }
 
     @Test
