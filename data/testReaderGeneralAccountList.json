@@ -1,0 +1,26 @@
+{
+    "name": "My Accounts",
+    "accounts": [
+        {
+            "balance": 100,
+            "date opened": "Thu, Feb 15 2024",
+            "name": "acc1",
+            "expiry date": "Thu, Feb 15 2029",
+            "expired status": false
+        },
+        {
+            "balance": 200,
+            "date opened": "Thu, Jan 11 2024",
+            "name": "acc2",
+            "expiry date": "Thu, Jan 11 2029",
+            "expired status": false
+        },
+        {
+            "balance": 300,
+            "date opened": "Fri, Feb 01 2019",
+            "name": "acc3",
+            "expiry date": "Thu, Feb 01 2024",
+            "expired status": true
+        }
+    ]
+}
