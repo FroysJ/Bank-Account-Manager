@@ -15,7 +15,7 @@ import java.util.Scanner;
 // Account manager application: allows users to create, delete, and modify accounts (in the context of banking)
 public class AccountManager {
 
-    private static final String JSON_STORE = "./data/testReaderGeneralAccountList.json";
+    private static final String JSON_STORE = "./data/Accounts.json";
     private AccountList accountList;
     private Scanner userInput;
     private JsonWriter jsonWriter;
@@ -57,7 +57,7 @@ public class AccountManager {
     private void homeScreen() {
         System.out.println("\nType 'c' to create a new account:");
         System.out.println("Type 'save' to save your current session:");
-        System.out.println("Type 'load' to load your previous session:");
+        System.out.println("Type 'load' to load your previously saved session:");
         if (!accountList.isEmpty()) {
             System.out.println("Type 'b' to view your total balance across all accounts:");
             System.out.println("Type 's' to select an existing account:");
