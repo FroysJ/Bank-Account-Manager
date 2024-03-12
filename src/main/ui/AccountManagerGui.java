@@ -21,8 +21,6 @@ import static java.lang.Double.parseDouble;
 public class AccountManagerGui extends JFrame {
     private static final int WIDTH = 900;
     private static final int HEIGHT = 600;
-    private static final String FILE_DESCRIPTOR = "...file";
-    private static final String SCREEN_DESCRIPTOR = "...screen";
     private final DateTimeFormatter format = DateTimeFormatter.ofPattern("E, MMM dd yyyy");
     private AccountList al;
     private JComboBox<String> printCombo;
@@ -680,6 +678,7 @@ public class AccountManagerGui extends JFrame {
 
     //EFFECTS: starts the application
     public static void main(String[] args) {
+        new LoadingScreen();
         new AccountManagerGui();
     }
 }
