@@ -9,6 +9,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -19,6 +21,8 @@ import static java.lang.Double.parseDouble;
 
 // Account manager GUI: provides the same functionality as account manager but in graphical form
 public class AccountManagerGui extends JFrame {
+
+    private static final String JSON_STORE = "./data/Accounts.json";
     private static final int WIDTH = 900;
     private static final int HEIGHT = 600;
     private final DateTimeFormatter format = DateTimeFormatter.ofPattern("E, MMM dd yyyy");
@@ -31,17 +35,18 @@ public class AccountManagerGui extends JFrame {
     private JsonWriter jsonWriter;
     private JsonReader jsonReader;
     private DefaultComboBoxModel<String> nameList;
+    private boolean firstToggle;
 
     //EFFECTS: constructs the account manager application
     public AccountManagerGui() {
         al = new AccountList("My Accounts");
+        jsonWriter = new JsonWriter(JSON_STORE);
+        jsonReader = new JsonReader(JSON_STORE);
 
         desktop = new JDesktopPane();
         homeScreen = new JInternalFrame("Home", false, false, false, false);
-        generalOptions = new JInternalFrame("General Options",
-                false, false, false, false);
-        accOptions = new JInternalFrame("Account Options",
-                false, false, false, false);
+        generalOptions = new JInternalFrame("General Options", false, false, false, false);
+        accOptions = new JInternalFrame("Account Options", false, false, false, false);
         nameList = new DefaultComboBoxModel<>();
 
         setContentPane(desktop);
@@ -116,6 +121,18 @@ public class AccountManagerGui extends JFrame {
         accPanel.add(new JButton(new RenewAction()));
         accPanel.add(new JButton(new DeleteAccountAction()));
         accOptions.add(accPanel, BorderLayout.WEST);
+    }
+
+    //MODIFIES: generalOptions, accOptions
+    //EFFECTS: toggles visibility of frames based on whether al is empty or not
+    private void toggleHomeScreenExtension() {
+        if (al.isEmpty()) {
+            generalOptions.setVisible(false);
+            accOptions.setVisible(false);
+        } else {
+            generalOptions.setVisible(true);
+            accOptions.setVisible(true);
+        }
     }
 
     /**
@@ -220,7 +237,19 @@ public class AccountManagerGui extends JFrame {
         //EFFECTS: loads app state from file
         @Override
         public void actionPerformed(ActionEvent evt) {
-            JOptionPane.showMessageDialog(null, "Loaded from file");
+            try {
+                al = jsonReader.read();
+                for (Account a : al.getAccountList()) {
+                    nameList.addElement(a.getName());
+                }
+                JOptionPane.showMessageDialog(null, "Loaded from file");
+                toggleHomeScreenExtension();
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(null,
+                        "Unable to read from file",
+                        "Load failed",
+                        JOptionPane.ERROR_MESSAGE);
+            }
         }
     }
 
@@ -237,7 +266,18 @@ public class AccountManagerGui extends JFrame {
         //EFFECTS: saves app state to file
         @Override
         public void actionPerformed(ActionEvent evt) {
-            JOptionPane.showMessageDialog(null, "Saved to file");
+            try {
+                jsonWriter.open();
+                jsonWriter.write(al);
+                jsonWriter.close();
+                JOptionPane.showMessageDialog(null, "Saved to file");
+            } catch (FileNotFoundException e) {
+                JOptionPane.showMessageDialog(null,
+                        "Unable to write to file",
+                        "Save failed",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+
         }
     }
 
@@ -278,17 +318,6 @@ public class AccountManagerGui extends JFrame {
         }
     }
 
-    //MODIFIES: generalOptions, accOptions
-    //EFFECTS: toggles visibility of frames based on whether al is empty or not
-    private void toggleHomeScreenExtension() {
-        if (al.isEmpty()) {
-            generalOptions.setVisible(false);
-            accOptions.setVisible(false);
-        } else {
-            generalOptions.setVisible(true);
-            accOptions.setVisible(true);
-        }
-    }
 
     //EFFECTS: helper for actions requiring an account to be selected:
     // returns account if an account is selected, null otherwise
