@@ -112,7 +112,7 @@ public class AccountManagerGui extends JFrame {
     private void addAccPanel() {
         JPanel accPanel = new JPanel();
         accPanel.setLayout(new GridLayout(4,2));
-        accPanel.add(new JLabel("Select Account →", SwingConstants.CENTER));
+        accPanel.add(new JLabel("Select Account  >>", SwingConstants.CENTER));
         accPanel.add(new JComboBox(nameList));
         accPanel.add(new JButton(new ViewDetailsAction()));
         accPanel.add(new JButton(new DepositAction()));
