@@ -2,6 +2,8 @@ package ui;
 
 import model.Account;
 import model.AccountList;
+import model.Event;
+import model.EventLog;
 import persistence.JsonReader;
 import persistence.JsonWriter;
 
@@ -9,6 +11,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -18,6 +23,7 @@ import java.util.ArrayList;
 import static java.lang.Double.parseDouble;
 
 // GUI framework code and comments taken from https://github.students.cs.ubc.ca/CPSC210/AlarmSystem.git
+// https://docs.oracle.com/javase/8/docs/api/java/awt/event/WindowListener.html#windowClosed-java.awt.event.WindowEvent-
 
 // Account manager GUI: provides the same functionality as account manager but in graphical form
 public class AccountManagerGui extends JFrame {
@@ -65,7 +71,7 @@ public class AccountManagerGui extends JFrame {
         setInvisibleFrame(generalOptions, homeScreen);
         setInvisibleFrame(accOptions, generalOptions);
 
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setCloseSettings();
         centreOnScreen();
         setVisible(true);
     }
@@ -383,10 +389,7 @@ public class AccountManagerGui extends JFrame {
             if (a == null) {
                 // do nothing
             } else {
-                double totalBal = 0;
-                for (Account acc : al.getAccountList()) {
-                    totalBal += acc.getBal();
-                }
+                double totalBal = al.getTotalBal();
                 JOptionPane.showMessageDialog(null,
                         "Your total balance across all accounts is: $" + totalBal);
             }
@@ -411,7 +414,7 @@ public class AccountManagerGui extends JFrame {
             } else {
                 TextPrinter tp = new TextPrinter(AccountManagerGui.this, "All Account Names:");
                 desktop.add(tp);
-                tp.print(al.getAccountList(), "names");
+                tp.print(al, "names");
             }
         }
     }
@@ -466,18 +469,21 @@ public class AccountManagerGui extends JFrame {
         //EFFECTS: prints details as specified (names, all details, details)
         public void print(Object o, String code) {
             if (code.equals("names")) {
-                for (Account a : (ArrayList<Account>) o) {
+                for (Account a : ((AccountList) o).getAccountList()) {
                     textArea.setText(textArea.getText() + a.getName() + "\n");
                 }
+                ((AccountList) o).eventCode("names");
                 repaint();
             } else if (code.equals("all details")) {
-                for (Account a : (ArrayList<Account>) o) {
+                for (Account a : ((AccountList) o).getAccountList()) {
                     textArea.setText(textArea.getText() + viewDetails(a) + "\n");
                 }
+                ((AccountList) o).eventCode("all details");
                 repaint();
             } else if (code.equals("details")) {
                 Account a = (Account) o;
                 textArea.setText(textArea.getText() + viewDetails(a));
+                a.eventCode("details");
             }
         }
     }
@@ -500,7 +506,7 @@ public class AccountManagerGui extends JFrame {
             } else {
                 TextPrinter tp = new TextPrinter(AccountManagerGui.this, "All Account Details:");
                 desktop.add(tp);
-                tp.print(al.getAccountList(), "all details");
+                tp.print(al, "all details");
             }
         }
     }
@@ -709,5 +715,22 @@ public class AccountManagerGui extends JFrame {
     public static void main(String[] args) {
         new LoadingScreen();
         new AccountManagerGui();
+    }
+
+    //EFFECTS: sets app exit settings: prints log when app is closed
+    public void setCloseSettings() {
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                super.windowClosed(e);
+                EventLog el = EventLog.getInstance();
+                for (Event next : el) {
+                    System.out.println("\n" + next.toString());
+                }
+                repaint();
+                System.exit(0);
+            }
+        });
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     }
 }

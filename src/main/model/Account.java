@@ -28,12 +28,14 @@ public class Account implements Writable {
         this.dateOfExpiry = LocalDate.now().plusYears(5);
         this.expired = false;
         this.bal = 0;
+        EventLog.getInstance().logEvent(new Event("Account created: " + this.name));
     }
 
     //MODIFIES: dateOfExpiry, expired
     //EFFECTS: changes expiry date to 5 years after today, changes expired status to false
     public void renewAccount() {
         setExpiryDate(LocalDate.now().plusYears(5));
+        EventLog.getInstance().logEvent(new Event("Account renewed: " + this.name));
     }
 
     //REQUIRES: 5 <= amount <= 500000
@@ -41,6 +43,7 @@ public class Account implements Writable {
     //EFFECTS: adds amount to balance
     public void deposit(double amount) {
         bal += amount;
+        EventLog.getInstance().logEvent(new Event("$" + amount + " deposited to: " + this.name));
     }
 
     //REQUIRES: 5 <= amount <= 500000 && amount <= bal
@@ -48,6 +51,7 @@ public class Account implements Writable {
     //EFFECTS: subtracts amount from balance
     public void withdraw(double amount) {
         bal -= amount;
+        EventLog.getInstance().logEvent(new Event("$" + amount + " withdrawn from: " + this.name));
     }
 
     //MODIFIES: dateOfExpiry, expired
@@ -100,6 +104,13 @@ public class Account implements Writable {
     //EFFECTS: returns expired status;
     public boolean isExpired() {
         return expired;
+    }
+
+    //EFFECTS: logs view details action
+    public void eventCode(String s) {
+        if (s.equals("details")) {
+            EventLog.getInstance().logEvent(new Event("Viewed account details for: " + this.name));
+        }
     }
 
     @Override

@@ -33,3 +33,46 @@ or pressing Ctrl+S.
 - You can reload the state of my application by pressing the load button on screen
 or in the file menu
 or pressing Ctrl+L.
+
+## Phase 4: Task 2
+Wed Mar 27 19:40:38 PDT 2024
+Account Manager application started
+
+Wed Mar 27 19:40:42 PDT 2024
+Account created: acc1
+
+Wed Mar 27 19:40:47 PDT 2024
+$30.0 deposited to: acc1
+
+Wed Mar 27 19:40:50 PDT 2024
+$20.0 withdrawn from: acc1
+
+Wed Mar 27 19:40:53 PDT 2024
+Total balance viewed: $10.0
+
+Wed Mar 27 19:40:55 PDT 2024
+Account renewed: acc1
+
+Wed Mar 27 19:40:59 PDT 2024
+Account created: acc2
+
+Wed Mar 27 19:41:01 PDT 2024
+Viewed accounts in account list
+
+Wed Mar 27 19:41:01 PDT 2024
+Viewed all account names
+
+Wed Mar 27 19:41:03 PDT 2024
+Viewed accounts in account list
+
+Wed Mar 27 19:41:03 PDT 2024
+Viewed all account details
+
+Wed Mar 27 19:41:06 PDT 2024
+Viewed account details for: acc1
+
+Wed Mar 27 19:41:10 PDT 2024
+Account deleted: acc1
+
+Wed Mar 27 19:41:12 PDT 2024
+Account deleted: acc2
