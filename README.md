@@ -76,3 +76,20 @@ Account deleted: acc1
 
 Wed Mar 27 19:41:12 PDT 2024
 Account deleted: acc2
+
+## Phase 4: Task 3
+
+One example of refactoring that could be done is in
+the AccountManagerGui class in the ui package.
+This class has another helper class, TextPrinter,
+which might be better off extracted as an individual
+class by itself due to the Single Responsibility Principle.
+A good example of this is the LoadingScreen class,
+which is a separate class that handles the loading screen
+while the AccountManagerGui handles the main application screen.
+There are also minor code quality issues in general
+that can be fixed in general, such as changing if-else
+clauses with empty if bodies to simple if clauses with the
+condition inverted. These would be done to allow for
+better code readability and less congestion of code
+(i.e. less lines of code).
