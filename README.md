@@ -62,13 +62,7 @@ Wed Mar 27 19:40:59 PDT 2024
 Account created: acc2
 
 Wed Mar 27 19:41:01 PDT 2024
-Viewed accounts in account list
-
-Wed Mar 27 19:41:01 PDT 2024
 Viewed all account names
-
-Wed Mar 27 19:41:03 PDT 2024
-Viewed accounts in account list
 
 Wed Mar 27 19:41:03 PDT 2024
 Viewed all account details
@@ -86,6 +80,8 @@ Account deleted: acc2
 ### Notes:
 - Creating an account automatically means adding it to the list of accounts
 - Load and Save actions are not logged
+- Doing a 'transaction' will log the event as a deposit or withdrawal,
+depending on which was done (the action itself is treated like so as well in the GUI)
 
 
 ## Phase 4: Task 3

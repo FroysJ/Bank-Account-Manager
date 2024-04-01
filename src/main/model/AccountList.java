@@ -14,7 +14,7 @@ public class AccountList implements Writable {
     private String name;
     private ArrayList<Account> accountList;
 
-    //EFFECTS: constructs an empty account list with a name
+    //EFFECTS: constructs an empty account list with a name and logs app start event
     public AccountList(String name) {
         this.name = name;
         this.accountList = new ArrayList<Account>();
@@ -30,7 +30,8 @@ public class AccountList implements Writable {
 
     //REQUIRES: account is in the list
     //MODIFIES: accountList
-    //EFFECTS: removes the given account from the list
+    //EFFECTS: removes the given account from the list and logs account removal
+    //         (same as deletion in the context of the ui) event
     public void removeAccount(Account account) {
         accountList.remove(account);
         EventLog.getInstance().logEvent(new Event("Account deleted: " + account.getName()));
@@ -63,7 +64,6 @@ public class AccountList implements Writable {
 
     //EFFECTS: returns this.accountList
     public ArrayList<Account> getAccountList() {
-        EventLog.getInstance().logEvent(new Event("Viewed accounts in account list"));
         return accountList;
     }
 
@@ -72,7 +72,7 @@ public class AccountList implements Writable {
         return name;
     }
 
-    //EFFECTS: returns total bal
+    //EFFECTS: returns total bal and logs view total balance event
     public double getTotalBal() {
         double totalBal = 0;
         for (Account a : accountList) {
@@ -82,7 +82,7 @@ public class AccountList implements Writable {
         return totalBal;
     }
 
-    //EFFECTS: differentiates between view detail actions in event log
+    //EFFECTS: differentiates between view details/view names actions in event log
     public void eventCode(String s) {
         if (s.equals("names")) {
             EventLog.getInstance().logEvent(new Event("Viewed all account names"));
@@ -91,6 +91,7 @@ public class AccountList implements Writable {
         }
     }
 
+    //EFFECTS: creates and returns a JSONObject for persistence
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();

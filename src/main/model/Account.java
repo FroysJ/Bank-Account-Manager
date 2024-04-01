@@ -21,7 +21,8 @@ public class Account implements Writable {
     //https://www.w3schools.com/java/java_date.asp
 
     //EFFECTS: constructs a new account with given name, current date as date opened,
-    //         expiry date as 5 years from now, expired status as false, and 0 balance
+    //         expiry date as 5 years from now, expired status as false, and 0 balance;
+    //         logs account creation event
     public Account(String name) {
         this.name = name;
         this.dateOpened = LocalDate.now();
@@ -32,7 +33,8 @@ public class Account implements Writable {
     }
 
     //MODIFIES: dateOfExpiry, expired
-    //EFFECTS: changes expiry date to 5 years after today, changes expired status to false
+    //EFFECTS: changes expiry date to 5 years after today, changes expired status to false;
+    //         logs account renewal event
     public void renewAccount() {
         setExpiryDate(LocalDate.now().plusYears(5));
         EventLog.getInstance().logEvent(new Event("Account renewed: " + this.name));
@@ -40,7 +42,8 @@ public class Account implements Writable {
 
     //REQUIRES: 5 <= amount <= 500000
     //MODIFIES: bal
-    //EFFECTS: adds amount to balance
+    //EFFECTS: adds amount to balance;
+    //         logs deposit event
     public void deposit(double amount) {
         bal += amount;
         EventLog.getInstance().logEvent(new Event("$" + amount + " deposited to: " + this.name));
@@ -49,6 +52,7 @@ public class Account implements Writable {
     //REQUIRES: 5 <= amount <= 500000 && amount <= bal
     //MODIFIES: bal
     //EFFECTS: subtracts amount from balance
+    //         logs withdrawal event
     public void withdraw(double amount) {
         bal -= amount;
         EventLog.getInstance().logEvent(new Event("$" + amount + " withdrawn from: " + this.name));
@@ -113,6 +117,7 @@ public class Account implements Writable {
         }
     }
 
+    //EFFECTS: creates and returns new JSONObject for persistence
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
