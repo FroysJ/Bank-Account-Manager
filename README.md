@@ -35,6 +35,10 @@ or pressing Ctrl+S.
 or in the file menu
 or pressing Ctrl+L.
 
+### Known Issue:
+- Some tests involving java.time.LocalDate may not pass if the user is using a Mac device;
+if this happens, check the AutoTest comments on the commit on Github to verify that the tests pass.
+
 ## Phase 4: Task 2
 Wed Mar 27 19:40:38 PDT 2024
 Account Manager application started
@@ -79,7 +83,10 @@ Wed Mar 27 19:41:12 PDT 2024
 Account deleted: acc2
 
 
-**Note: creating an account automatically means adding it to the list of accounts
+### Notes:
+- Creating an account automatically means adding it to the list of accounts
+- Load and Save actions are not logged
+
 
 ## Phase 4: Task 3
 
