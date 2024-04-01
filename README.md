@@ -19,6 +19,7 @@ of my accounts (_date opened, expiry date, balance, etc._).
 - As a user, I want to be able to **load** my accounts from file.
 
 ## Instructions for Grader
+- Start the app by running ui.AccountManagerGui.java
 - You can create multiple accounts by pressing the create account button on screen
 or in the file menu and typing a name.
 - You can view account details by pressing the view all details button on screen
@@ -76,6 +77,9 @@ Account deleted: acc1
 
 Wed Mar 27 19:41:12 PDT 2024
 Account deleted: acc2
+
+
+**Note: creating an account automatically means adding it to the list of accounts
 
 ## Phase 4: Task 3
 
