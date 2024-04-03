@@ -82,6 +82,10 @@ Account deleted: acc2
 - Load and Save actions are not logged
 - Doing a 'transaction' will log the event as a deposit or withdrawal,
 depending on which was done (the action itself is treated like so as well in the GUI)
+- Viewing single account details, all account details, or all account names
+will result in a new pop-up box. If another action is made that opens another box,
+that box will open behind the first box, so it will not be visible until the first box
+is closed.
 
 
 ## Phase 4: Task 3
